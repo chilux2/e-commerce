@@ -37,4 +37,4 @@ app.post(
        } 
     );
 
-
+    module.exports = AuthService;
