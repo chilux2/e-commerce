@@ -1,4 +1,18 @@
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 
+app.get("/logout", (req, res) => {
+    req.logout();
+    res.redirect("/login");
+})
+
+app.get("/login", (req, res) => {
+    res.render("login");
+  });
+
+app.get("/profile", (req,res) => {
+    res.render("profile", {user: req.user});
+})
 
 app.post("/register", async (req,res) => {
     const { username, password } = req.body;
@@ -14,4 +28,13 @@ app.post("/register", async (req,res) => {
         res.status(500).json({msg: "Account creation failure"});
     }
 });
+
+
+app.post(
+    "/login",passport.authenticate("local", {failureRedirect : "/login"}), 
+       (req,res) => {
+        res.redirect("profile");
+       } 
+    );
+
 
