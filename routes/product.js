@@ -3,7 +3,7 @@ const productRouter = express.Router();
 
 
 
-productRouter.get('/', async (req, res, next) => {
+productRouter.get('/products', async (req, res, next) => {
     try {
         res.status(200).send(response);
     } catch(err){
@@ -11,7 +11,7 @@ productRouter.get('/', async (req, res, next) => {
     }
 });
 
-productRouter.get('/:productId', async (req,res, next) => {
+productRouter.get('/products/{productId}', async (req,res, next) => {
     try {
         res.status(200).send(response);
     } catch(err) {
