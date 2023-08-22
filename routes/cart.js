@@ -1,30 +1,39 @@
 const express = require('express');
 const cartRouter = express.Router();
 
-app.use('/', cartRouter);
-
-cartRouter.post('/cart', async (req, res, next) => {
+cartRouter.get('/:id', async (req, res, next) => {
     try {
-        res.status(200).send(response);
+        res.status(200).send();
     } catch(err) {
         next(err);
     }
 });
 
-cartRouter.post('/cart/{cartId}', async (req, res, next) => {
+cartRouter.put('/id', async (req, res, next) => {
     try {
-        res.status(200).send(response);
+        res.status(200).send();
     } catch(err) {
         next(err);
     }
 });
 
-cartRouter.get('/cart/{cartId}', async (req, res, next) => {
+
+cartRouter.post('/', async (req, res, next) => {
     try {
-        res.status(200).send(response);
+        res.status(200).send();
     } catch(err) {
         next(err);
     }
 });
+
+cartRouter.delete('/id', async (req, res, next) => {
+    try {
+        res.status(200).send();
+    } catch(err) {
+        next(err);
+    }
+});
+
+
 
 module.exports = cartRouter;

@@ -1,5 +1,5 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
+const session = require("express-session");
+const express = require('express');
 
 app.get("/logout", (req, res) => {
     req.logout();

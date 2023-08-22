@@ -1,27 +1,27 @@
 const express = require('express');
 const customerRouter = express.Router();
 
-app.use('/customers', customerRouter);
+//app.use('/customers', customerRouter);
 
-customerRouter.get('/customers', async (req, res, next) => {
-    try{
-       res.status(200).send(response);
+customerRouter.get('/', async (req, res, next) => {
+  try{
+       res.status(200).send();
     } catch(err) {
        next(err)
     }
    });
 
-customerRouter.get('/:customerId', async (req, res, next) => {
- try{
-    res.status(200).send(response);
- } catch(err) {
-    next(err)
- }
-});
-
-customerRouter.put('/:customerId', async (req, res, next) => {
+   customerRouter.post('/', async (req, res, next) => {
     try{
-        res.status(200).send(response);
+       res.status(200).send();
+    } catch(err) {
+       next(err)
+    }
+   });
+
+customerRouter.put('/id', async (req, res, next) => {
+    try{
+        res.status(200).send();
     } catch(err) {
         next(err)
     }

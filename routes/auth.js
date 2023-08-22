@@ -1,8 +1,7 @@
 const express = require('express');
 const Authrouter = express.Router();
+const session = require("express-session");
 
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
 
 const AuthService = require('../services/AuthService');
 const AuthServiceInstance = new AuthService();

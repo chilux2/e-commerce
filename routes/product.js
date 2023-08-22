@@ -1,22 +1,20 @@
 const express = require('express');
 const productRouter = express.Router();
 
-
-
-productRouter.get('/products', async (req, res, next) => {
+productRouter.get('/', async (req, res, next) => {
     try {
-        res.status(200).send(response);
+        res.status(200).send();
     } catch(err){
         next(err);
     }
 });
 
-productRouter.get('/products/{productId}', async (req,res, next) => {
+productRouter.get('/id', async (req,res, next) => {
     try {
-        res.status(200).send(response);
+        res.status(200).send();
     } catch(err) {
         next(err);
     }
-})
+});
 
 module.exports = productRouter;
