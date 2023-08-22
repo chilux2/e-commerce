@@ -1,8 +1,6 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
-const session = require("express-session");
-
 module.exports = (app) => {
 
 app.use(passport.initialize());
