@@ -1,22 +1,25 @@
 
-const path = require('path');
+/*const path = require('path');
 require('dotenv').config({
   override: true,
   path: path.join(__dirname, '.env')
-});
+});*/
 
-const { Pool, Client } = require('pg');
+const { Pool } = require('pg');
 
+const dotenv = require("dotenv");
+dotenv.config();
 
 const pool = new Pool({
-  DB_USER: process.env.DB_USER,
-  DB_HOST: process.env.DB_HOST,
-  DB_DATABASE: process.env.DB_DATABASE,
-  DB_PASSWORD: process.env.DB_PASSWORD,
-  DB_PORT: process.env.DB_PORT,
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
 });
 
-(async () => {
+
+/*(async () => {
 
   const client = await pool.connect();
     try {
@@ -30,9 +33,10 @@ const pool = new Pool({
     }
 
 })();
+*/
 
-/*module.exports = {
+module.exports = {
   query: (text, params) => pool.query(text, params)
-}*/
+}
 
-module.exports = pool;
+//module.exports = pool;

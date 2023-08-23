@@ -5,13 +5,15 @@ const customerRouter = express.Router();
 
 customerRouter.get('/', async (req, res, next) => {
   try{
+      
        res.status(200).send();
+      
     } catch(err) {
        next(err)
     }
    });
 
-   customerRouter.post('/', async (req, res, next) => {
+   customerRouter.get('/id', async (req, res, next) => {
     try{
        res.status(200).send();
     } catch(err) {
