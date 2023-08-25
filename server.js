@@ -1,11 +1,19 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const app = express();
-//const { DB } = require('./config');
 const dotenv = require("dotenv")
 dotenv.config()
 
+const { PORT } = require('./config');
 
-const port = process.env.PGPORT || 8000;
+app.use(express.json());
+app.use(bodyParser.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+)
+//const port = process.env.PORT || 8000;
 
 /*const passportLoader = require('./loaders/passport');
 const expressLoader = require( './loaders/express');
@@ -32,11 +40,10 @@ app.use('/product', productRouter);
 
 
 
-
 //dont forget to import all the routes into the server.js!!!!!!
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`)
 })
 
 
