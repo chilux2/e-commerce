@@ -4,6 +4,8 @@ const app = express();
 const dotenv = require("dotenv")
 dotenv.config()
 
+
+
 const { PORT } = require('./config');
 
 app.use(express.json());
@@ -25,11 +27,12 @@ app.get('/', (req, res) => {
   res.send('Hello World it is i chilu!')
 })
 
+
 const customerRouter = require('./routes/customers');
 app.use('/customers', customerRouter);
 
 const cartRouter = require('./routes/cart');
-app.use('/cart', cartRouter);
+app.use('/cart', cartRouter); 
 
 const ordersRouter = require('./routes/orders');
 app.use('/orders', ordersRouter);
