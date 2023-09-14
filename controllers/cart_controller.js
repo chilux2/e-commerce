@@ -36,10 +36,24 @@ const createCart = (req, res) => {
    })
  }
 
+ const checkout = (req, res) => {
+   const customer_id = req.params.customer_id;
+   //const id = req.body.id;
+   pool.query(getCartById, [customer_id], (error,results) => {
+      if(error){throw error}
+      if(results.rows.length === 0) {
+         res.status(400).send('nothing in cart');
+      } else {
+          res.status(200).send('check out completed');
+      }
+   })
+ }
+
  
  module.exports = {
 
     createCart,
     getCartById,
     deleteCart,
+    checkout,
  };

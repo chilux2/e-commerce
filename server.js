@@ -4,7 +4,7 @@ const app = express();
 const dotenv = require("dotenv")
 dotenv.config()
 
-
+const loaders = require('./loaders');
 
 const { PORT } = require('./config');
 
@@ -15,6 +15,8 @@ app.use(
     extended: true,
   })
 )
+
+
 //const port = process.env.PORT || 8000;
 
 /*const passportLoader = require('./loaders/passport');
@@ -23,10 +25,15 @@ const expressLoader = require( './loaders/express');
 passportLoader(app);
 expressLoader(app);*/
 
+loaders(app);
+
 app.get('/', (req, res) => {
   res.send('Hello World it is i chilu!')
 })
 
+
+const Authrouter = require('./routes/auth');
+app.use('/auth', Authrouter);
 
 const customerRouter = require('./routes/customers');
 app.use('/customers', customerRouter);
