@@ -2,6 +2,7 @@ const express = require('express');
 const Authrouter = express.Router();
 const passport = require("passport");
 const auth_controller = require('../controllers/auth_controller');
+//const passport = require('../loaders/passport');
 //const session = require("express-session");
 
 
@@ -11,12 +12,16 @@ const auth_controller = require('../controllers/auth_controller');
 
     Authrouter.post('/register', auth_controller.registerUser); 
 
+    Authrouter.get("/login", (req, res) => {
+        res.render("login");
+    })
 
-    Authrouter.post("/login", passport.authenticate("local"), (req, res) => {
-        const user = req.user;
-        console.log(user);
-        res.json({message: `${user.first_name} is logged in`});
-    });
+
+    Authrouter.post("/login", auth_controller.getCustomerEmail, 
+    passport.authenticate("local", {failureRedirect: "/login"}), (req, res) => {
+        res.redirect("login");
+    }
+    );
 
        /* Authrouter.post('/login', auth_controller.getCustomerEmail, passport.authenticate('local', {failureRedirect: '/login'}), (req, res,) => {
 

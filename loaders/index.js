@@ -1,5 +1,6 @@
 const expressLoad = require('./express');
 const passportLoad = require('./passport');
+//const routeLoad = require('../server');
 
 module.exports = async (app) => {
 
@@ -7,6 +8,8 @@ module.exports = async (app) => {
     const expressApp = await expressLoad(app);
 
     const passport = await passportLoad(expressApp);
+
+   
 
 
      // Error Handler

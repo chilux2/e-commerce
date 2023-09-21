@@ -24,14 +24,14 @@ const pool = new Pool({
 
 pool.connect();
 
-pool.query(`SELECT * FROM customers`, (err, res)=> {
+/*pool.query(`SELECT * FROM customers`, (err, res)=> {
   if(!err){
       console.log(res.rows);
   } else {
     console.log(err.message);
   }
   pool.end;
-})
+}) */
 //wrote a query to select all customers from my database 
 
 /*module.exports = {

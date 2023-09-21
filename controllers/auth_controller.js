@@ -26,7 +26,7 @@ const registerUser = (req, res) => {
     const getCustomerEmail = (req, res) => {
         const { first_name, last_name, customer_email, password, username } = req.body;
 
-        pool.query(auth_query.getCustomerEmail, [customer_email],[username], async (password,username) => {
+        pool.query(auth_query.getCustomerEmail, [customer_email], async (password,username) => {
 
             if(!username) {
                 res.status(401).send('Incorrect username or password');
@@ -42,7 +42,7 @@ const registerUser = (req, res) => {
 
     
 
-
+//npm run devStart
  
 
 module.exports = {
