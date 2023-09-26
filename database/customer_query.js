@@ -9,7 +9,7 @@ const getCustomerEmail = "SELECT * FROM customers WHERE customer_email = $1";
 
 const registerUser = "INSERT INTO customers (first_name, last_name, customer_email, password, username) VALUES ($1, $2, $3, $4, $5) RETURNING * ";
 
-
+const getCustomerByUsername = "SELECT * FROM customers WHERE username = $1";
 
 
 module.exports = {
@@ -18,4 +18,5 @@ module.exports = {
     updateCustomer,
     registerUser,
     getCustomerEmail,
+    getCustomerByUsername,
 }

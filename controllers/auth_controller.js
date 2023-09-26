@@ -23,7 +23,22 @@ const registerUser = (req, res) => {
 
 }
 
-    const getCustomerEmail = (req, res) => {
+    const getCustomerEmail = (username, password, done) => {
+        pool.query(auth_query.getCustomerEmail, [username], async (error, results) => {
+
+            if(!username) {
+                res.status(401).send('Incorrect username or password');
+            };
+            
+            if(username.password !== password) {
+                res.status(401).send('Incorrect username or password');
+            };
+    
+            res.status(201).send('Login successful');
+        });
+    }
+
+    /*const getCustomerEmail = (req, res) => {
         const { first_name, last_name, customer_email, password, username } = req.body;
 
         pool.query(auth_query.getCustomerEmail, [customer_email], async (password,username) => {
@@ -38,7 +53,7 @@ const registerUser = (req, res) => {
     
             res.status(201).send('Login successful');
         })
-    }
+    } */
 
     
 

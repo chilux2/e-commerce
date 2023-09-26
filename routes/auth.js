@@ -17,11 +17,7 @@ const auth_controller = require('../controllers/auth_controller');
     })
 
 
-    Authrouter.post("/login", auth_controller.getCustomerEmail, 
-    passport.authenticate("local", {failureRedirect: "/login"}), (req, res) => {
-        res.redirect("login");
-    }
-    );
+    Authrouter.post("/login", passport.authenticate("local")); 
 
        /* Authrouter.post('/login', auth_controller.getCustomerEmail, passport.authenticate('local', {failureRedirect: '/login'}), (req, res,) => {
 

@@ -1,6 +1,9 @@
+
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const DB = require('./index');
+const LocalStrategy = require("passport-local").Strategy;
+const pool = require('../index');
+const customer_query = require('../controllers/customer_controller');
+const auth_query = require('../controllers/auth_controller');
 
 module.exports = (app) => {
 
@@ -12,16 +15,19 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    DB.customers.findById(id, function (err, user) {
-        if (err) return done(err);
-        done(null, user);
+    pool.query(customer_query.getCustomerById, [id], (err, results) => {
+        if (err) throw err; 
+        const user = results.rows[0];
+        return done(null, user);
     });
 });
 
 
-passport.use(new LocalStrategy (
-    function (username, password, done){
-        DB.customers.findByUsername(username, (err,customers) => {
+passport.use(new LocalStrategy(auth_query.getCustomerEmail));
+
+/*
+passport.use(new LocalStrategy ( function (username, password, done) {
+        pool.query((auth_query.getCustomerEmail), [username], async (err,results) => {
     // If there's an error in db lookup, 
       // return err callback function
       if(err) return done(err);
@@ -36,9 +42,10 @@ passport.use(new LocalStrategy (
  
       // If user found and password valid, 
       // return the user object in callback
-      return done(null, user)
-        })
-    }
-));
-
+      return done(null, username);
+        });
+    })); */
 }
+
+
+
