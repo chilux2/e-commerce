@@ -1,11 +1,12 @@
 const pool = require('../index');
 const auth_query = require('../database/customer_query');
+const passport = require("passport");
 
 
 const registerUser = (req, res) => {
     const { first_name, last_name, customer_email, password, username } = req.body;
 
-    pool.query(auth_query.getCustomerEmail, [customer_email], async (error, results) => {
+    pool.query(auth_query.getCustomerEmail, [customer_email], (error, results) => {
         if(error) throw error;
         if(results.rows.length) {
             res.status(400).send('Email already in use, please enter another one');
@@ -23,7 +24,7 @@ const registerUser = (req, res) => {
 
 }
 
-    const getCustomerEmail = (username, password, done) => {
+   /*const getCustomerEmail = (username, password, done) => {
         pool.query(auth_query.getCustomerEmail, [username], async (error, results) => {
 
             if(!username) {
@@ -35,13 +36,16 @@ const registerUser = (req, res) => {
             };
     
             res.status(201).send('Login successful');
+            done();
         });
-    }
+    }*/ 
 
-    /*const getCustomerEmail = (req, res) => {
+    
+    const getCustomerEmail = (req, res) => {
+        
         const { first_name, last_name, customer_email, password, username } = req.body;
 
-        pool.query(auth_query.getCustomerEmail, [customer_email], async (password,username) => {
+        pool.query(auth_query.getCustomerEmail, [customer_email], (password,username) => {
 
             if(!username) {
                 res.status(401).send('Incorrect username or password');
@@ -53,9 +57,8 @@ const registerUser = (req, res) => {
     
             res.status(201).send('Login successful');
         })
-    } */
-
-    
+    ;
+    } 
 
 //npm run devStart
  

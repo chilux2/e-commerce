@@ -1,11 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
-const dotenv = require("dotenv")
-dotenv.config()
+const dotenv = require("dotenv");
+dotenv.config();
+const passport = require('passport');
+const { initialize } = require('./loaders/passport');
 
 
-const loaders = require('./loaders');
+
+const loaders = require('./loaders/express');
 
 const { PORT } = require('./config');
 
@@ -27,6 +30,11 @@ passportLoader(app);
 expressLoader(app);*/
 
 loaders(app);
+
+//initialize(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+initialize(passport);
 
 app.get('/', (req, res) => {
   res.send('Hello World it is i chilu!')

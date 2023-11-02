@@ -2,8 +2,9 @@ const express = require('express');
 const Authrouter = express.Router();
 const passport = require("passport");
 const auth_controller = require('../controllers/auth_controller');
-//const passport = require('../loaders/passport');
+const passportLoader = require('../loaders/passport');
 //const session = require("express-session");
+//const auth_user = require('../loaders/passport');
 
 
 //const AuthService = require('../services/AuthService');
@@ -12,12 +13,25 @@ const auth_controller = require('../controllers/auth_controller');
 
     Authrouter.post('/register', auth_controller.registerUser); 
 
-    Authrouter.get("/login", (req, res) => {
-        res.render("login");
-    })
+    Authrouter.get("/login", auth_controller.getCustomerEmail);
 
 
-    Authrouter.post("/login", passport.authenticate("local")); 
+   Authrouter.post('/login',
+         passport.authenticate("local"));  
+
+
+          //Authrouter.post('/login', passport.authenticate("local")); 
+         // Authrouter.post('/login', auth_controller.getCustomerEmail);
+            //successReturnToOrRedirect: '/',
+          //  failureRedirect: '/login',
+            //failureMessage: true
+          
+            
+    /*Authrouter.post('/login',
+    auth_controller.getCustomerEmail,
+      passport.authenticate("local"), (req, res, next ) => {
+        res.status(201).send("now you are logged in baby!") 
+        }); */
 
        /* Authrouter.post('/login', auth_controller.getCustomerEmail, passport.authenticate('local', {failureRedirect: '/login'}), (req, res,) => {
 
