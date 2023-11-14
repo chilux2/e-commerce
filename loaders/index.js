@@ -1,11 +1,11 @@
-//const expressLoad = require('./express');
+const expressLoad = require('./express');
 const passportLoad = require('./passport');
 //const routeLoad = require('../server');
 
 module.exports = async (app) => {
 
 
-   // const expressApp = await expressLoad(app);
+   //const expressApp = await expressLoad(app);
 
     //const passport =  passportLoad(expressApp);
 

@@ -5,13 +5,13 @@ module.exports = (app) => {
 
 app.use(
     session({  
-      secret: SESSION_SECRET,
+      secret: SESSION_SECRET ,
       resave: false,
       saveUninitialized: false,
-      cookie: {
+     /* cookie: {
         secure: false,
-        maxAge: 24 * 60 * 60 * 1000
-      }
+        maxAge: 24 * 60 * 60
+      } */
     })
   );
     return app;

@@ -1,16 +1,21 @@
 const express = require('express');
+const session = require('express-session');
+const { SESSION_SECRET } = require('./config');
 const bodyParser = require('body-parser')
 const app = express();
-const dotenv = require("dotenv");
-dotenv.config();
+ require("dotenv").config();
 const passport = require('passport');
 const { initialize } = require('./loaders/passport');
+//const LocalStrategy = require("passport-local").Strategy;
 
 
 
-const loaders = require('./loaders/express');
+
+//const loaders = require('./loaders/express');
 
 const { PORT } = require('./config');
+
+//loaders(app);
 
 app.use(express.json());
 app.use(bodyParser.json())
@@ -19,6 +24,21 @@ app.use(
     extended: true,
   })
 )
+
+
+
+
+app.use(
+  session({  
+    secret: process.env.SESSION_SECRET ,
+    resave: false,
+    saveUninitialized: false,
+   /* cookie: {
+      secure: false,
+      maxAge: 24 * 60 * 60
+    } */
+  })
+);
  
 
 //const port = process.env.PORT || 8000;
@@ -29,7 +49,19 @@ const expressLoader = require( './loaders/express');
 passportLoader(app);
 expressLoader(app);*/
 
-loaders(app);
+
+
+/*passport.serializeUser((user, done) => {
+  console.log(` serialize user: ${JSON.stringify(user)}`);
+  return done(null, user.id);
+});
+
+
+passport.use('local', new LocalStrategy({ passReqToCallback: true },
+  (req, username, password, done) => {
+
+  }));  */
+
 
 //initialize(passport);
 app.use(passport.initialize());

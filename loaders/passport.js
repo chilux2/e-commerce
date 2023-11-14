@@ -3,12 +3,79 @@
 const LocalStrategy = require("passport-local").Strategy;
 const pool = require('../index');
 const bcrypt = require('bcrypt');
+//const { getCustomerById } = require('../database/customer_query');
+//const { getCustomerEmail } = require('../database/customer_query');
+const passport = require('passport');
+//const { getCartById } = require("../database/cart_query");
+
 
 //const services = require('../controllers/auth_controller');
 //const { getCartById } = require("../database/cart_query");
 
 
-function initialize(passport, getCustomerEmail, getCustomerById) {
+function initialize(passport) {
+
+console.log('passport time');
+
+const authenticateUser = (email, password, done) => {
+  pool.query(getCustomerEmail), [email], (err, results) => {
+    if (err) {
+      throw err;
+    }
+
+    if (results.rows.length > 0) {
+      const user = results.rows[0];
+
+      bcrypt.compare(password, user.password, (err, aMatch) => {
+        if (err) {
+          console.log(err);
+        }
+
+        if(aMatch) {
+          return done(null,user);
+        } else {
+          return done(null, false, { message: "incorrect password"});
+        }
+      });
+    } else {
+      return done(null, false, {
+        message: " email address does not match"
+      });
+    }
+  }
+};
+
+  passport.use(new LocalStrategy(
+  {usernameField: "email", passwordField: "password"},
+  authenticateUser)
+  );
+
+  passport.serializeUser((user, done) => {
+
+    return done(null, user.id );
+  })
+
+  passport.deserializeUser((id, done) => {
+    pool.query(getCartById, [id], (err, results) => {
+      if (err) {
+        return done(err);
+      }
+      console.log(results.rows[0]);
+      return done(null, results.rows[0]);
+    });
+  })
+
+  }
+
+
+
+
+
+
+
+/*
+function initialize(passport) {
+
   const authenticateUser = async (email, password, done) => {
     const user = await getCustomerEmail(email);
     if (user.length == 0) {
@@ -24,14 +91,26 @@ function initialize(passport, getCustomerEmail, getCustomerById) {
       return done(e);
     }
   };
-  passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser));
-  passport.serializeUser((user, done) => done(null, user.user_id));
+
+  
+ 
+  
+
+  passport.use('local', new LocalStrategy(authenticateUser));
+  
+  
+  //done(null, user.user_id));
+  
   passport.deserializeUser(async (id, done) => {
     const user = await getCustomerById(id);
     return done(null, user[0]);
   });
 }
-module.exports = initialize;
+*/
+
+module.exports = {
+ initialize,
+}
 
 
 
