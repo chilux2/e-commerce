@@ -1,21 +1,21 @@
 const express = require('express');
 const session = require('express-session');
-const { SESSION_SECRET } = require('./config');
+//const { SESSION_SECRET } = require('./config');
 const bodyParser = require('body-parser')
 const app = express();
- require("dotenv").config();
+ require("dotenv");
 const passport = require('passport');
 const { initialize } = require('./loaders/passport');
 //const LocalStrategy = require("passport-local").Strategy;
 
 
+//console.log(process.env)
 
-
-//const loaders = require('./loaders/express');
+const loaders = require('./loaders/express');
 
 const { PORT } = require('./config');
 
-//loaders(app);
+loaders(app);
 
 app.use(express.json());
 app.use(bodyParser.json())
@@ -27,18 +27,18 @@ app.use(
 
 
 
-
+/*
 app.use(
   session({  
-    secret: process.env.SESSION_SECRET ,
+    secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-   /* cookie: {
+    cookie: {
       secure: false,
       maxAge: 24 * 60 * 60
-    } */
+    } 
   })
-);
+); */
  
 
 //const port = process.env.PORT || 8000;

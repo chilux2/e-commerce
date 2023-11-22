@@ -8,10 +8,10 @@ app.use(
       secret: SESSION_SECRET ,
       resave: false,
       saveUninitialized: false,
-     /* cookie: {
+      cookie: {
         secure: false,
         maxAge: 24 * 60 * 60
-      } */
+      } 
     })
   );
     return app;

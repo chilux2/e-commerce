@@ -43,28 +43,28 @@ const authenticateUser = (email, password, done) => {
       });
     }
   }
-};
+};  
+
+passport.serializeUser((user, done) => {
+    done(null, user.id );
+});
+
+passport.deserializeUser((id, done) => {
+  pool.query(getCartById, [id], (err, results) => {
+    if (err) {
+      return done(err);
+    }
+    console.log(results.rows[0]);
+    return done(null, results.rows[0]);
+  });
+})
 
   passport.use(new LocalStrategy(
   {usernameField: "email", passwordField: "password"},
   authenticateUser)
   );
 
-  passport.serializeUser((user, done) => {
-
-    return done(null, user.id );
-  })
-
-  passport.deserializeUser((id, done) => {
-    pool.query(getCartById, [id], (err, results) => {
-      if (err) {
-        return done(err);
-      }
-      console.log(results.rows[0]);
-      return done(null, results.rows[0]);
-    });
-  })
-
+ 
   }
 
 
