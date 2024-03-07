@@ -81,16 +81,16 @@ app.get("/",  (req,res) => {
 });
 
 app.get('/customers/register', (req, res) => {
-  req.render("register");
+  res.render("register");
 });
 
 app.get('/customers/login', (req, res) => {
-  req.render("login");
+  res.render("login");
 });
 
 
 app.get('/customers/dashboard', (req, res) => {
-  req.render("dashboard", {customer: "Chilu"});
+  res.render("dashboard", {user: "Chilu"});
 });
 
 

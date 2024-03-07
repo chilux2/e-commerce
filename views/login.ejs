@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,5 +7,31 @@
 </head>
 <body>
     <h1>Login</h1>
+
+    <form action="/customers/login" method="POST">
+        
+
+        <div>
+            <input type="email" id="email" name="email" placeholder="Email" required />
+        </div>
+
+        <div>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+          </div>
+
+
+          <div>
+            <input type="submit" value="Login" />
+          </div>
+
+          <a href="/customers/register">Register</a>
+
+    </form>
 </body>
 </html>
