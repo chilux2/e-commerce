@@ -3,9 +3,9 @@ const session = require('express-session');
 //const { SESSION_SECRET } = require('./config');
 const bodyParser = require('body-parser')
 const app = express();
- require("dotenv");
+ //require("dotenv").config();
 const passport = require('passport');
-const { initialize } = require('./loaders/passport');
+const  { initialize } = require('./loaders/passport');
 //const LocalStrategy = require("passport-local").Strategy;
 
 
@@ -63,10 +63,10 @@ passport.use('local', new LocalStrategy({ passReqToCallback: true },
   }));  */
 
 
-//initialize(passport);
+initialize(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-initialize(passport);
+//initialize(passport);
 
 app.get('/', (req, res) => {
   res.send('Hello World it is i chilu!')

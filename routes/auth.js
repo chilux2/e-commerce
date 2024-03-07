@@ -15,6 +15,14 @@ const passportLoader = require('../loaders/passport');
 
     Authrouter.get("/login", auth_controller.getCustomerEmail);
 
+    
+
+   /* Authrouter.post('/auth/login',
+    passport.authenticate("local", {
+        successRedirect: "/login/dashboard",
+        failureRedirect: "/users/login",
+    }) ) */
+
 
    /*Authrouter.post('/login',
          passport.authenticate("local"));  */
@@ -26,41 +34,13 @@ const passportLoader = require('../loaders/passport');
           //  failureRedirect: '/login',
             //failureMessage: true
           
-            
-    Authrouter.post('/login', (req, res, next ) => 
-    { 
-        console.log(`Login handler ${JSON.stringify(req.body)}`);
-        passport.authenticate(
-            'local',
-             (err, user) => {
-                console.log("Passport authenticate ");
-
-                if (err) {
-
-                }
-
-                if (!user) {
-
-                }
-
-                req.logIn(user, (err) => {
-
-                    if (err) {
-                        return next(err);
-                    }
-
-                    res.status(200).json({
-                        redirectTo: '/profile'
-                    });
-                })
-
-               
-
-        })(req, res, next)
-      
-    }
-    
-    ); 
+          
+             Authrouter.post('/login', (req, res, next) => { 
+                 passport.authenticate('local',function(err, user, info){
+                     console.log(user);
+                     res.sendStatus(200);
+            })(req,res, next);
+            }); 
         
 
        /* Authrouter.post('/login', auth_controller.getCustomerEmail, passport.authenticate('local', {failureRedirect: '/login'}), (req, res,) => {
