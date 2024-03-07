@@ -15,7 +15,6 @@ const passportLoader = require('../loaders/passport');
 
     Authrouter.get("/login", auth_controller.getCustomerEmail);
 
-    
 
    /* Authrouter.post('/auth/login',
     passport.authenticate("local", {
@@ -56,9 +55,6 @@ const passportLoader = require('../loaders/passport');
 
 
 
-    Authrouter.get("/profile",  (req,res) => {
-        res.render("profile", {username: req.username });
-    });
 
     /*Authrouter.post('login', passport.authenticate('local'), async (req, res, next) => {
         try{

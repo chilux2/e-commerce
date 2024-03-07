@@ -68,9 +68,31 @@ app.use(passport.initialize());
 app.use(passport.session());
 //initialize(passport);
 
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
   res.send('Hello World it is i chilu!')
-})
+}); */
+
+//connor bailey tutorial - minute 21.37
+
+app.set("view engine", "ejs");
+
+app.get("/",  (req,res) => {
+  res.render("index");
+});
+
+app.get('/customers/register', (req, res) => {
+  req.render("register");
+});
+
+app.get('/customers/login', (req, res) => {
+  req.render("login");
+});
+
+
+app.get('/customers/dashboard', (req, res) => {
+  req.render("dashboard", {customer: "Chilu"});
+});
+
 
 
 const Authrouter = require('./routes/auth');
