@@ -16,12 +16,36 @@ const passportLoader = require('../loaders/passport');
     Authrouter.get("/login", auth_controller.getCustomerEmail);
 
 
-   /* Authrouter.post('/auth/login',
-    passport.authenticate("local", {
-        successRedirect: "/login/dashboard",
-        failureRedirect: "/users/login",
-    }) ) */
+    Authrouter.post('/customers/login', passport.authenticate('local', { failureMessage: true }), (req, res) => {
+        res.send(`Logged in as ${req.body.username}`);
+    })
 
+
+
+/*
+    Authrouter.post('/customers/login', passport.authenticate('local'), (req, res) => {
+        const user = req.user;
+        console.log(user);
+         res.json({message: `${user.first_name} is logged in`});
+      }); */
+
+    /*Authrouter.post('/customers/login', 
+    passport.authenticate('local', { failureRedirect: '/login', failureMessage: true}),
+    function(req, res) {
+        res.redirect('/~' + req.user.username);
+    })
+
+    
+*/
+ 
+/*
+   Authrouter.post('auth/customers/login',
+    passport.authenticate("local", {
+        successRedirect: "/customers/dashboard",
+        failureRedirect: "/customers/login",
+        failureFlash: true
+    }));
+*/
 
    /*Authrouter.post('/login',
          passport.authenticate("local"));  */
@@ -34,12 +58,12 @@ const passportLoader = require('../loaders/passport');
             //failureMessage: true
           
           
-             Authrouter.post('/login', (req, res, next) => { 
+            /* Authrouter.post('/login', (req, res, next) => { 
                  passport.authenticate('local',function(err, user, info){
                      console.log(user);
                      res.sendStatus(200);
             })(req,res, next);
-            }); 
+            });  */
         
 
        /* Authrouter.post('/login', auth_controller.getCustomerEmail, passport.authenticate('local', {failureRedirect: '/login'}), (req, res,) => {

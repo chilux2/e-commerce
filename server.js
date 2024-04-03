@@ -78,7 +78,7 @@ app.set("view engine", "ejs");
 
 app.get("/",  (req,res) => {
   res.render("index");
-});
+}); //connor bailey - 31.01
 
 app.get('/customers/register', (req, res) => {
   res.render("register");
