@@ -16,7 +16,7 @@ const passportLoader = require('../loaders/passport');
     Authrouter.get("/login", auth_controller.getCustomerEmail);
 
 
-    Authrouter.post('/customers/login', passport.authenticate('local', { failureMessage: true }), (req, res) => {
+    Authrouter.post('/login', passport.authenticate('local', { failureMessage: true }), (req, res) => {
         res.send(`Logged in as ${req.body.username}`);
     })
 

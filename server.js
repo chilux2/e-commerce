@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const app = express();
  //require("dotenv").config();
 const passport = require('passport');
-const  { initialize } = require('./loaders/passport');
+const  passportLoader = require('./loaders/passport');
 //const LocalStrategy = require("passport-local").Strategy;
 
 
@@ -16,6 +16,8 @@ const loaders = require('./loaders/express');
 const { PORT } = require('./config');
 
 loaders(app);
+
+passportLoader(app)
 
 app.use(express.json());
 app.use(bodyParser.json())
@@ -63,7 +65,7 @@ passport.use('local', new LocalStrategy({ passReqToCallback: true },
   }));  */
 
 
-initialize(passport);
+//initialize(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 //initialize(passport);

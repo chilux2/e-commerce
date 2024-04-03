@@ -3,11 +3,63 @@ const passport = require('passport');
 const LocalStrategy = require("passport-local").Strategy;
 const pool = require('../index');
 const bcrypt = require('bcrypt');
-const auth_query = require('../controllers/auth_controller')
+const { getUser } = require('../services/userService');
 
 
 
 
+module.exports = (app) => {
+
+  app.use(passport.initialize(), passport.session());
+  
+  // Configure passport local strategy
+  passport.use(
+      new LocalStrategy(async function (username, password, done) {
+          const failMessage = { message: 'Incorrect username or password.' }
+          try {
+            const user = await getUser(username);
+              if (!user) return done(null, false, failMessage);
+  
+              const matchedPassword = await bcrypt.compare(password, user.password);
+              if (!matchedPassword) return done(null, false, failMessage);
+  
+              return done(null, user);
+          } catch (error) {
+              return done(error);
+          }
+  
+      })
+  );
+  
+  passport.serializeUser((user, done) => done(null, user.id));
+  
+  passport.deserializeUser((user, done) => {
+      done(null, user)
+  })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 function initialize(passport) {
   const authenticateUser = (username, password, done) => {
     console.log(username, password);
@@ -66,7 +118,7 @@ function initialize(passport) {
 module.exports = {
   initialize,
 }
-
+*/
 
 
 
