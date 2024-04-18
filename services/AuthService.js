@@ -1,45 +1,33 @@
-const session = require("express-session");
-const express = require('express');
-const app = express();
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
+const UserModel = require('../models/user');
+const UserModelInstance = new UserModel();
 
 
+module.exports = class AuthService {
 
-app.get("/logout", (req, res) => {
-    req.logout();
-    res.redirect("/login");
-})
-
-app.get("/login", (req, res) => {
-    res.render("login");
-  });
-
-app.get("/profile", (req,res) => {
-    res.render("profile", {user: req.user});
-})
-
-app.post("/register", async (req,res) => {
-    const { username, password } = req.body;
-
-    const newUser = await db.customers.createUser({ username, password });
-
-    if(newUser) {
-        res.status(201).json({
-            msg: " Account creation success",
-            newUser
-        });
-    } else {
-        res.status(500).json({msg: "Account creation failure"});
-    }
-});
-
-
-app.post(
-    "/login",passport.authenticate("local", {failureRedirect : "/login"}), 
-       (req,res) => {
-        res.redirect("profile");
-       } 
-    );
-
-    module.exports = AuthService;
+    async login(data) {
+  
+      const { customer_email, password } = data;
+  
+      try {
+        // Check if user exists
+        const user = await UserModelInstance.findOneByEmail(customer_email);
+  
+        // If no user found, reject
+        if (!user) {
+          throw createError(401, 'Incorrect username or password');
+        }
+  
+        // Check for matching passwords
+        if (user.password !== password) {
+          throw createError(401, 'Incorrect username or password');
+        }
+  
+        return user;
+  
+      } catch(err) {
+        throw createError(500, err);
+      }
+  
+    }; 
+  
+  }

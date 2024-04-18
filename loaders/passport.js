@@ -1,13 +1,53 @@
 
 const passport = require('passport');
-const LocalStrategy = require("passport-local").Strategy;
+//const LocalStrategy = require("passport-local").Strategy;
+const LocalStrategy = require('passport-local');
 const pool = require('../index');
 const bcrypt = require('bcrypt');
 const { getUser } = require('../services/userService');
 
+const AuthService = require('../services/AuthService');
+const AuthServiceInstance = new AuthService();
+
+module.exports = (app) => {
+
+  // Initialize passport
+  app.use(passport.initialize());  
+  app.use(passport.session());
+  
+  // Set method to serialize data to store in cookie
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+  
+  // Set method to deserialize data stored in cookie and attach to req.user
+  passport.deserializeUser((id, done) => {
+    done(null, { id });
+  });
+
+  // Configure local strategy to be use for local login
+  passport.use('local', new LocalStrategy(
+    async (username, password, done) => {
+      try {
+        const user = await AuthServiceInstance.login({ customer_email: username, password });
+        return done(null, user);
+      } catch(err) {
+        return done(err);
+      }
+    }
+  ));
+
+  return passport;
+
+}
 
 
 
+
+
+
+
+/*
 module.exports = (app) => {
 
   app.use(passport.initialize(), passport.session());
@@ -31,39 +71,25 @@ module.exports = (app) => {
       })
   );
   
-  passport.serializeUser((user, done) => done(null, user.id));
+  passport.serializeUser((user, done) => {
+    done(null, {
+        id: user.id,
+        username: user.user_name
+    });
+});
   
   passport.deserializeUser((user, done) => {
       done(null, user)
   })
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 /*
 function initialize(passport) {
   const authenticateUser = (username, password, done) => {
     console.log(username, password);
-    pool.query( "SELECT customers.customer_email, customers.password FROM customers WHERE customer_email = $1", [username],
+    pool.query( "SELECT * FROM customers WHERE username = $1", [username],
     //pool.query(auth_query.getCustomerEmail),
     (err, results) => {
       if (err) {
@@ -96,12 +122,11 @@ function initialize(passport) {
     });
   };
 
-  passport.use(new LocalStrategy({
+  passport.use('local', new LocalStrategy({
     usernameField: "customer_email",
     passwordField: "password"
-  }, authenticateUser
-  )
-  );
+  }, authenticateUser)
+);
 
   passport.serializeUser((user, done) => done(null, user.id));
 
@@ -118,8 +143,8 @@ function initialize(passport) {
 module.exports = {
   initialize,
 }
-*/
 
+*/
 
 
 

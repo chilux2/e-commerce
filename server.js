@@ -1,31 +1,27 @@
 const express = require('express');
-const session = require('express-session');
+//const session = require('express-session');
 //const { SESSION_SECRET } = require('./config');
-const bodyParser = require('body-parser')
+//const bodyParser = require('body-parser')
 const app = express();
  //require("dotenv").config();
-const passport = require('passport');
-const  passportLoader = require('./loaders/passport');
+//const passport = require('passport');
+//const  passportLoader = require('./loaders/passport');
 //const LocalStrategy = require("passport-local").Strategy;
+const loaders = require('./loaders');
 
 
 //console.log(process.env)
 
-const loaders = require('./loaders/express');
+// loaders = require('./loaders/express');
 
 const { PORT } = require('./config');
 
+async function startServer() {
+
 loaders(app);
 
-passportLoader(app)
+//passportLoader(app)
 
-app.use(express.json());
-app.use(bodyParser.json())
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-)
 
 
 
@@ -66,8 +62,8 @@ passport.use('local', new LocalStrategy({ passReqToCallback: true },
 
 
 //initialize(passport);
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 //initialize(passport);
 
 /*app.get('/', (req, res) => {
@@ -75,6 +71,8 @@ app.use(passport.session());
 }); */
 
 //connor bailey tutorial - minute 21.37
+
+/*
 
 app.set("view engine", "ejs");
 
@@ -94,9 +92,9 @@ app.get('/customers/login', (req, res) => {
 app.get('/customers/dashboard', (req, res) => {
   res.render("dashboard", {user: "Chilu"});
 });
+*/
 
-
-
+/*
 const Authrouter = require('./routes/auth');
 app.use('/auth', Authrouter);
 
@@ -112,7 +110,7 @@ app.use('/orders', ordersRouter);
 const productRouter = require('./routes/product');
 app.use('/product', productRouter);
 
-
+*/
 
 
 //dont forget to import all the routes into the server.js!!!!!!
@@ -121,5 +119,7 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`)
 })
 
+}
 
+startServer();
 
