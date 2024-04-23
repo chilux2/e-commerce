@@ -1,15 +1,14 @@
 
-/*const path = require('path');
-require('dotenv').config({
-  override: true,
-  path: path.join(__dirname, '.env')
-});*/
+
+const dotenv = require('dotenv');
+
+dotenv.config({path:'./config/config.env'});
 
 const { Pool } = require('pg');
 
 /*const dotenv = require("dotenv");
 dotenv.config();*/
-require("dotenv").config();
+//require("dotenv").config();
 
 const { DB } = require('./config');
 

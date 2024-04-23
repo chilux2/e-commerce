@@ -3,9 +3,15 @@ const ordersRouter = express.Router();
 
 const orders_controller = require('../controllers/orders_controller');
 
+module.exports = (app) => {
+
+app.use('orders', ordersRouter);
+
 ordersRouter.get('/', orders_controller.getAllOrders);
 ordersRouter.get('/:id', orders_controller.getOrdersById);
 ordersRouter.post('/', orders_controller.createOrder);
 
-module.exports = ordersRouter;
+}
+
+//module.exports = ordersRouter;
 

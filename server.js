@@ -115,8 +115,8 @@ app.use('/product', productRouter);
 
 //dont forget to import all the routes into the server.js!!!!!!
 
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`)
+app.listen(PORT, (err) => {
+  console.log(`Example app listening on port ${process.env.PORT}`)
 })
 
 }

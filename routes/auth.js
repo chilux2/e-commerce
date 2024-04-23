@@ -11,6 +11,9 @@ const pool = require('../index');
 const AuthService = require('../services/AuthService');
 const AuthServiceInstance = new AuthService();
 
+module.exports = (app, passport) => {
+
+    app.use('/auth', Authrouter);
 
     Authrouter.post('/register', auth_controller.registerUser); 
 
@@ -28,7 +31,7 @@ const AuthServiceInstance = new AuthService();
         }
       });
 
-
+    }
 
     /*
     
@@ -138,4 +141,4 @@ Authrouter.post('/login/password', passport.authenticate('local', {
     }) */
 
 
-module.exports = Authrouter;
+//module.exports = Authrouter;
