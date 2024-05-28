@@ -1,8 +1,8 @@
 
 
-const dotenv = require('dotenv');
+//const dotenv = require('dotenv');
 
-dotenv.config({path:'./config/config.env'});
+//dotenv.config({path:'./config/config.env'});
 
 const { Pool } = require('pg');
 

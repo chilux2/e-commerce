@@ -22,6 +22,7 @@ module.exports = (app, passport) => {
     Authrouter.post('/login', passport.authenticate('local'), async (req, res, next) => {
         try {
           const { username, password } = req.body;
+          console.log(user);
         
           const response = await AuthServiceInstance.login({ customer_email: username, password});
         
