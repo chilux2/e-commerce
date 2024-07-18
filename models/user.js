@@ -6,14 +6,14 @@ module.exports = class UserModel {
      * @param  {String}      email [Email address]
      * @return {Object|null}       [User record]
      */
-    async findOneByEmail(customer_email) {
+    async findOneByEmail(email) {
       try {
   
         // Generate SQL statement
         const statement = `SELECT *
                            FROM customers
                            WHERE customer_email = $1`;
-        const values = [customer_email];
+        const values = [email];
     
         // Execute SQL statment
         const result = await pool.query(statement, values);

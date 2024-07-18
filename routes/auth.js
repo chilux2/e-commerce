@@ -8,32 +8,38 @@ const pool = require('../index');
 //const auth_user = require('../loaders/passport');
 
 
-const AuthService = require('../services/AuthService');
-const AuthServiceInstance = new AuthService();
+//const AuthService = require('../services/AuthService');
+//const AuthServiceInstance = new AuthService();
 
 module.exports = (app, passport) => {
 
     app.use('/auth', Authrouter);
 
-    Authrouter.post('/register', auth_controller.registerUser); 
+    Authrouter.post('auth/register', auth_controller.registerUser); 
 
-    Authrouter.get("/login", auth_controller.getCustomerEmail);
+    Authrouter.get("auth/login", auth_controller.getCustomerEmail);
+    
 
-    Authrouter.post('/login', passport.authenticate('local'), async (req, res, next) => {
+    Authrouter.route('/auth/login').post(passport.authenticate('local', { failureRedirect: "/login" }), 
+(req,res) => {
+    res.status(200).redirect(`/auth/customers/${req.user.id}`);
+})
+
+    /*Authrouter.post('auth/login', passport.authenticate('local'), async (req, res, next) => {
         try {
           const { username, password } = req.body;
           console.log(user);
         
-          const response = await AuthServiceInstance.login({ customer_email: username, password});
+          const response = await AuthServiceInstance.login({ email: username, password});
         
           res.status(200).send(response);
         } catch(err) {
           next(err);
         }
-      });
+      });*/
 
+    //
     }
-
     /*
     
     Authrouter.post('/login', passport.authenticate('local', async (req, res) => {
@@ -142,4 +148,4 @@ Authrouter.post('/login/password', passport.authenticate('local', {
     }) */
 
 
-//module.exports = Authrouter;
+module.exports = Authrouter;

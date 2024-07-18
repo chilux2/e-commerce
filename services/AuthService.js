@@ -6,11 +6,11 @@ module.exports = class AuthService {
 
     async login(data) {
   
-      const { customer_email, password } = data;
+      const { email, password } = data;
   
       try {
         // Check if user exists
-        const user = await UserModelInstance.findOneByEmail(customer_email);
+        const user = await UserModelInstance.findOneByEmail(email);
   
         // If no user found, reject
         if (!user) {

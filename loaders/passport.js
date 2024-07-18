@@ -1,12 +1,93 @@
+/*const LocalStrategy = require("passport-local").Strategy;
+const { pool } = require("../index");
+const bcrypt = require("bcrypt");
 
-const LocalStrategy = require('passport-local').Strategy
-const bcrypt = require('bcrypt')
+function initialize(passport) {
+  console.log("Initialized");
+
+  const authenticateUser = (customer_email, password, done) => {
+    console.log(customer_email, password);
+    pool.query(
+      `SELECT * FROM customers WHERE customer_email = $1`,
+      [customer_email],
+      (err, results) => {
+        if (err) {
+          throw err;
+        }
+        console.log(results.rows);
+
+        if (results.rows.length > 0) {
+          const user = results.rows[0];
+
+          bcrypt.compare(password, user.password, (err, isMatch) => {
+            if (err) {
+              console.log(err);
+            }
+            if (isMatch) {
+              return done(null, user);
+            } else {
+              //password is incorrect
+              return done(null, false, { message: "Password is incorrect" });
+            }
+          });
+        } else {
+          // No user
+          return done(null, false, {
+            message: "No user with that email address"
+          });
+        }
+      }
+    );
+  };
+
+  passport.use(
+    new LocalStrategy(
+      { usernameField: "customer_email", passwordField: "password" },
+      authenticateUser
+    )
+  );
+  // Stores user details inside session. serializeUser determines which data of the user
+  // object should be stored in the session. The result of the serializeUser method is attached
+  // to the session as req.session.passport.user = {}. Here for instance, it would be (as we provide
+  //   the user id as the key) req.session.passport.user = {id: 'xyz'}
+  passport.serializeUser((user, done) => done(null, user.id));
+
+  // In deserializeUser that key is matched with the in memory array / database or any data resource.
+  // The fetched object is attached to the request object as req.user
+
+  passport.deserializeUser((id, done) => {
+    pool.query(`SELECT * FROM customers WHERE id = $1`, [id], (err, results) => {
+      if (err) {
+        return done(err);
+      }
+      console.log(`ID is ${results.rows[0].id}`);
+      return done(null, results.rows[0]);
+    });
+  });
+}
+
+module.exports = initialize;
+
+*/
+
+
+/*const LocalStrategy = require('passport-local').Strategy
+const bcrypt = require('bcrypt');
+
+const { pool } = require("../index")
 
 function initialize(passport, getCustomerEmail, getCustomerById) {
   const authenticateUser = async (email, password, done) => {
-    const user = getCustomerEmail(email)
+   /* const user = getCustomerEmail(email)
     if (user == null) {
       return done(null, false, { message: 'No user with that email' })
+    } 
+
+    pool.query("SELECT * FROM customers WHERE customer_email = $1"), [email], 
+    (err, results) => {
+      if (err) {
+        throw err;
+      }
     }
 
     try {
@@ -27,21 +108,21 @@ function initialize(passport, getCustomerEmail, getCustomerById) {
   })
 }
 
-module.exports = {initialize}
+module.exports = initialize */
 
 
 
 
 //
-/*
+
 const passport = require('passport');
-//const LocalStrategy = require("passport-local").Strategy;
-const LocalStrategy = require('passport-local');
+const LocalStrategy = require("passport-local").Strategy;
+//const LocalStrategy = require('passport-local');
 const pool = require('../index');
 const bcrypt = require('bcrypt');
-const { getUser } = require('../services/userService');
+//const { getUser } = require('../services/userService');
 
-const AuthService = require('../services/AuthService');
+/*const AuthService = require('../services/AuthService');
 const AuthServiceInstance = new AuthService();
 
 module.exports = (app) => {
@@ -61,10 +142,10 @@ module.exports = (app) => {
   });
 
   // Configure local strategy to be use for local login
-  passport.use('local', new LocalStrategy(
+  passport.use(new LocalStrategy(
     async (username, password, done) => {
       try {
-        const user = await AuthServiceInstance.login({ customer_email: username, password });
+        const user = await AuthServiceInstance.login({ email: username, password });
         return done(null, user);
       } catch(err) {
         return done(err);
@@ -77,6 +158,7 @@ module.exports = (app) => {
 }
 
 */
+
 
 
 
@@ -120,7 +202,7 @@ module.exports = (app) => {
 
 */
 
-/*
+
 function initialize(passport) {
   const authenticateUser = (username, password, done) => {
     console.log(username, password);
@@ -179,7 +261,7 @@ module.exports = {
   initialize,
 }
 
-*/
+
 
 
 
