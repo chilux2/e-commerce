@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
-const cookieParser = require('cookie-parser');
+//const cookieParser = require('cookie-parser');
 const passportLoader = require('./loaders/passport');
 //const passport = require('passport');
 
@@ -19,7 +19,7 @@ passportLoader(app);
 app.set('view-engine', 'ejs');
 
 app.use(cors());
-app.use(cookieParser());
+//.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(
@@ -32,7 +32,7 @@ app.use(
 
 app.use(
   session({  
-    secret: SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'session_secret',
     resave: false,
     saveUninitialized: false,
     cookie: {

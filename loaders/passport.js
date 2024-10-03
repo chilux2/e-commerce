@@ -1,9 +1,7 @@
 const passport = require('passport');
 const localStrategy = require('passport-local');
 
-//const AuthService = require('../services/AuthService');
-//const AuthServiceInstance = new AuthService();
-const { getUser } = require('../services/UserService');
+const { getCustomerByUsername } = require('../database/customer_query');
 const bcrypt = require('bcrypt');
 
 module.exports = (app) => {
@@ -18,7 +16,7 @@ module.exports = (app) => {
     new localStrategy(async function (username, password, done) {
         const failMessage = { message: 'Incorrect username or password.' }
         try {
-            const user = await getUser(username);
+            const user = await getCustomerByUsername(username);
             if (!user) return done(null, false, failMessage);
 
             const matchedPassword = await bcrypt.compare(password, user.password);
