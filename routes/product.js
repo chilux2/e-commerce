@@ -1,34 +1,15 @@
 const express = require('express');
-const router = express.Router();
-
-const ProductService = require('../services/ProductService');
-const ProductServiceInstance = new ProductService();
+const productRouter = express.Router();
+const product_controller = require('../controllers/product_controller');
 
 module.exports = (app) => {
 
-  
+app.use('/product', productRouter);
 
-  router.get('/', async (req, res, next) => {
-    try {
+productRouter.get('/:id', product_controller.getProductById);
 
-      const queryParams = req.query;
+productRouter.get('/', product_controller.getAllProducts);
 
-      const response = await ProductServiceInstance.list(queryParams);
-      res.status(200).send(response);
-    } catch(err) {
-      next(err);
-    }
-  });
 
-  router.get('/:productId', async (req, res, next) => {
-    try {
-      const { productId } = req.params;
-
-      const response = await ProductServiceInstance.get(productId);
-
-      res.status(200).send(response);
-    } catch(err) {
-      next(err);
-    }
-  });
 }
+//module.exports = productRouter;

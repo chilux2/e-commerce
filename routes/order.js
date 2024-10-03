@@ -1,35 +1,17 @@
 const express = require('express');
-const router = express.Router();
+const ordersRouter = express.Router();
 
-const OrderService = require('../services/OrderService');
-const OrderServiceInstance = new OrderService();
+const orders_controller = require('../controllers/orders_controller');
 
 module.exports = (app) => {
 
-  app.use('/orders', router);
+app.use('orders', ordersRouter);
 
-  router.get('/', async (req, res, next) => {
-    try {
-      const { id } = req.user;
-  
-      const response = await OrderServiceInstance.list(id);
-      res.status(200).send(response);
-    } catch(err) {
-      next(err);
-    }
-  });
-
-  router.get('/:orderId', async (req, res, next) => {
-    try {
-      const { orderId } = req.params;
-  
-      const response = await OrderServiceInstance.findById(orderId);
-      res.status(200).send(response);
-    } catch(err) {
-      next(err);
-    }
-
-
-  });
+ordersRouter.get('/', orders_controller.getAllOrders);
+ordersRouter.get('/:id', orders_controller.getOrdersById);
+ordersRouter.post('/', orders_controller.createOrder);
 
 }
+
+//module.exports = ordersRouter;
+

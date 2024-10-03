@@ -1,54 +1,66 @@
 
 require('dotenv').config();
+
 const express = require('express');
-const app = express();
-const expressLoader = require('./loaders/express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const passportLoader = require('./loaders/passport');
-const passport = require('passport');
-const authRouter = require('./routes/auth')
-const productsRouter = require('./routes/product');
-const userRouter = require('./routes/user');
-const cartRouter = require('./routes/cart');
-const ordersRouter = require('./routes/order');
+//const passport = require('passport');
 
-const PORT = process.env.PORT || 8000;
 
-expressLoader(app);
+
+const app = express();
+const PORT = process.env.PORT || 8000; 
 
 passportLoader(app);
 
-authRouter(app, passport);
+app.set('view-engine', 'ejs');
 
-productsRouter(app);
+app.use(cors());
+app.use(cookieParser());
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
-userRouter(app);
 
-cartRouter(app);
 
-ordersRouter(app);
+app.use(
+  session({  
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 24 * 60 * 60
+    } 
+  })
+); 
+
+
+
+const Authrouter = require('./routes/auth');
+app.use('/auth', Authrouter);
+
+const customerRouter = require('./routes/customers');
+app.use('/customers', customerRouter);
+
+const cartRouter = require('./routes/cart');
+app.use('/cart', cartRouter); 
+
+const ordersRouter = require('./routes/orders');
+app.use('/orders', ordersRouter);
+
+const productRouter = require('./routes/product');
+app.use('/product', productRouter);
+
+
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-
-
-/*const express = require('express');
-const app = express();
-
-const loaders = require('./loaders');
-
-const { PORT } = require('./config');
-
-async function startServer() {
-
-  // Init application loaders
-  loaders(app);
-
-  // Start server
-  app.listen(PORT, () => {
-    console.log(`Server listening on PORT ${PORT}`);
-  })
-}
-//finish copying app.js
-startServer(); */
+  console.log(`Example app listening on port ${PORT}`);
+})
