@@ -66,8 +66,8 @@ module.exports = class UserModel {
 
       // Generate SQL statement
       const statement = `SELECT *
-                         FROM users
-                         WHERE email = $1`;
+                         FROM customers
+                         WHERE customer_email = $1`;
       const values = [email];
   
       // Execute SQL statment
@@ -94,7 +94,7 @@ module.exports = class UserModel {
 
       // Generate SQL statement
       const statement = `SELECT *
-                         FROM users
+                         FROM customers
                          WHERE id = $1`;
       const values = [id];
   

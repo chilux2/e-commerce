@@ -3,10 +3,10 @@ const router = express.Router();
 const CartService = require('../services/CartService');
 
 const CartServiceInstance = new CartService();
-
+//work on cart next 
 module.exports = (app, passport) => {
 
-  app.use('/carts', router);
+  app.use('/cart', router);
 
   router.get('/mine', async (req, res, next) => {
     try {

@@ -1,17 +1,53 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const localStrategy = require('passport-local');
 
-const AuthService = require('../services/AuthService');
-const AuthServiceInstance = new AuthService();
+//const AuthService = require('../services/AuthService');
+//const AuthServiceInstance = new AuthService();
+const { getUser } = require('../services/UserService');
+const bcrypt = require('bcrypt');
 
 module.exports = (app) => {
 
   // Initialize passport
-  app.use(passport.initialize());  
-  app.use(passport.session());
+  /*app.use(passport.initialize());  
+  app.use(passport.session()); */
+
+  app.use(passport.initialize(), passport.session());
+
+  passport.use(
+    new localStrategy(async function (username, password, done) {
+        const failMessage = { message: 'Incorrect username or password.' }
+        try {
+            const user = await getUser(username);
+            if (!user) return done(null, false, failMessage);
+
+            const matchedPassword = await bcrypt.compare(password, user.password);
+            if (!matchedPassword) return done(null, false, failMessage);
+
+            return done(null, user);
+        } catch (error) {
+            return done(error);
+        }
+
+    })
+);
+
+passport.serializeUser((user, done) => {
+    done(null, {
+        id: user.id,
+        username: user.user_name
+    });
+});
+
+passport.deserializeUser((user, done) => {
+    done(null, user)
+})
+
+
+
   
   // Set method to serialize data to store in cookie
-  passport.serializeUser((user, done) => {
+  /*passport.serializeUser((user, done) => {
     done(null, user.id);
   });
   
@@ -33,5 +69,5 @@ module.exports = (app) => {
   ));
 
   return passport;
-
+*/
 }
