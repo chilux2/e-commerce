@@ -5,16 +5,31 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
-//const cookieParser = require('cookie-parser');
 const passportLoader = require('./loaders/passport');
-//const passport = require('passport');
+const expressLoader = require('./loaders/express');
+const passport = require('passport');
+const { SESSION_SECRET } = require('./config');
 
 
 
 const app = express();
-const PORT = process.env.PORT || 8000; 
+const PORT = process.env.PORT || 8000;
+
+
+app.use(
+  session({  
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 24 * 60 * 60
+    } 
+  })
+); 
 
 passportLoader(app);
+expressLoader(app);
 
 app.set('view-engine', 'ejs');
 
@@ -30,18 +45,9 @@ app.use(
 
 
 
-app.use(
-  session({  
-    secret: process.env.SESSION_SECRET || 'session_secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,
-      maxAge: 24 * 60 * 60
-    } 
-  })
-); 
 
+app.use(passport.initialize()); 
+app.use(passport.session()); 
 
 
 const Authrouter = require('./routes/auth');

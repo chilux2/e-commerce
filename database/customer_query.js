@@ -11,6 +11,8 @@ const registerUser = "INSERT INTO customers (first_name, last_name, customer_ema
 
 const getCustomerByUsername = "SELECT * FROM customers WHERE username = $1";
 
+const deleteCustomer = "DELETE FROM customers WHERE id = $1";
+
 
 module.exports = {
     getCustomerById,
@@ -19,4 +21,5 @@ module.exports = {
     registerUser,
     getCustomerEmail,
     getCustomerByUsername,
+    deleteCustomer
 }

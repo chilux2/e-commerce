@@ -33,9 +33,21 @@ const updateCustomer = (req, res) => {
         res.status(200).send(`customer updated info with ID: ${id}`);
     })
 }
+
+const deleteCustomer = (req,res) => {
+    const id = parseInt(req.params.id);
+ 
+    pool.query(customer_query.deleteCustomer, [id], (error,results) => {
+       if(error) {
+          throw error
+       }
+       res.status(200).send(`Customer deleted with ID: ${id}`);
+    })
+  }
 module.exports = {
     getCustomerById,
     getAllCustomers,
     updateCustomer,
+    deleteCustomer
 }
 
